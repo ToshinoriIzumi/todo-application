@@ -10,5 +10,5 @@ RUN mkdir -p /opt/app && chown -R app_user:app_user /opt/app
 WORKDIR /opt/app
 
 USER app_user
-
-CMD cd /opt/app && npm start
+COPY ./code/frontend/package.json /opt/app
+RUN npm install

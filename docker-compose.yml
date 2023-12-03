@@ -1,0 +1,44 @@
+version: '3'
+services:
+  frontend:
+    build: 
+      context: .
+      dockerfile: ./docker/frontend/Dockerfile
+    volumes:
+      - ./code/frontend:/opt/app
+      - node_modules:/opt/app/node_modules
+    command: npm start /opt/app
+    ports:
+      - "3000:3000"
+    networks:
+      - todo-app-network
+  backend:
+    build: ./docker/backend
+    ports:
+      - "8000:8000"
+    volumes: 
+      - ./code/backend:/opt/app
+    networks:
+      - todo-app-network
+  db:
+    image: postgres:9.6
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    networks:
+      - todo-app-network
+networks:
+  todo-app-network:
+    driver: bridge
+volumes:
+  node_modules:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/code/frontend/node_modules
+      o: bind
