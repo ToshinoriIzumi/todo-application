@@ -13,11 +13,14 @@ services:
     networks:
       - todo-app-network
   backend:
-    build: ./docker/backend
-    ports:
-      - "8000:8000"
+    build: 
+      context: .
+      dockerfile: ./docker/backend/Dockerfile
     volumes: 
       - ./code/backend:/opt/app
+    command: poetry run uvicorn src.app:app --host 0.0.0.0 --reload
+    ports:
+      - "8000:8000"
     networks:
       - todo-app-network
   db:
