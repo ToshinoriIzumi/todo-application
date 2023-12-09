@@ -1,8 +1,20 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from src.routes import task
 
 app = FastAPI()
 
+origins = [
+    "http://localhost:3000",
+    "http://frontend:3000"
+]
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_methods=["GET", "POST", "PATCH", "DELETE"],
+    allow_headers=["*"],
+)
+
+
+app.include_router(task.router)

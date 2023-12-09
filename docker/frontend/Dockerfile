@@ -6,9 +6,11 @@ RUN apt-get update && \
     groupadd -g 1100 app_user && \
     useradd -m -s /bin/bash -u 1100 -g 1100 app_user
 
-RUN mkdir -p /opt/app && chown -R app_user:app_user /opt/app
+RUN mkdir -p /opt/app/.npm
+COPY ./code/frontend/package.json /opt/app
+COPY ./code/frontend/package-lock.json /opt/app
+RUN chown -R app_user:app_user /opt/app
 WORKDIR /opt/app
 
 USER app_user
-COPY ./code/frontend/package.json /opt/app
 RUN npm install
