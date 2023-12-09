@@ -1,5 +1,4 @@
 import React from 'react'
-import { useEffect } from 'react'
 import type { Todo } from '../types/todo'
 import { useFetchTodos } from '../hooks/useFetchTodos'
 
@@ -13,7 +12,7 @@ const  TaskList = () => {
   }
   return (
     <div>
-      <h2>TaskList</h2>
+      <h2 className="text-3xl font-bold underline">TaskList</h2>
       <ul>
         { loading ? (
           <div>Loading...</div>
