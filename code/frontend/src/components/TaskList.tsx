@@ -1,6 +1,7 @@
 import React from 'react'
 import type { Todo } from '../types/todo'
 import { useFetchTodos } from '../hooks/useFetchTodos'
+import { Link } from 'react-router-dom'
 
 const  TaskList = () => {
   const { todos, error, loading } = useFetchTodos();
@@ -13,6 +14,7 @@ const  TaskList = () => {
   return (
     <div>
       <h2 className="text-3xl font-bold underline">TaskList</h2>
+      <Link to="/taskadd">タスクの追加</Link>
       <ul>
         { loading ? (
           <div>Loading...</div>

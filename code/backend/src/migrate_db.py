@@ -1,6 +1,6 @@
 from sqlmodel import create_engine, SQLModel
 
-from models.todo import TodoBase
+from models.todo import Todo
 
 DB_URL = "postgresql+psycopg2://postgres:postgres@db:5432/todo_app"
 engine = create_engine(DB_URL, echo=True)

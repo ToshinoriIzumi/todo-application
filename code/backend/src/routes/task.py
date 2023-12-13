@@ -1,12 +1,18 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
+from sqlmodel import Session
+
+from src.models.todo import TodoRead, TodoCreate
+from src.cruds.todo_crud import TodoCrud
+from src.db import get_db
 
 router = APIRouter()
 
 
 @router.get("/")
-async def list_tasks():
-    return [
-        {"id": 1, "title": "Buy milk", "description": "Go to the store and buy milk"},
-        {"id": 2, "title": "Sleep", "description": "Go to bed before 12 PM"},
-        {"id": 3, "title": "Work", "description": "Do some work"},
-    ]
+async def list_tasks(db: Session = Depends(get_db)):
+    return TodoCrud.search_all(db)
+
+
+@router.post("/post", response_model=TodoRead)
+async def create_task(todo: TodoCreate, db: Session = Depends(get_db)):
+    return TodoCrud.create(db, todo)

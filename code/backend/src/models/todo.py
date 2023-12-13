@@ -4,10 +4,23 @@ from typing import Optional
 from sqlmodel import Field, SQLModel
 
 
-class TodoBase(SQLModel, table=True):
-    __tablename__ = "todos"
-    id: Optional[int] = Field(default=None, primary_key=True)
+class TodoBase(SQLModel):
     title: str
     description: str = None
-    created_at: datetime = Field(default_factory=datetime.now, nullable=False)
-    updated_at: datetime = Field(default_factory=datetime.now, nullable=False)
+
+
+class Todo(TodoBase, table=True):
+    __tablename__ = "todos"
+    id: Optional[int] = Field(default=None, primary_key=True)
+    created_at: datetime = Field(default=datetime.now())
+    updated_at: datetime = Field(default=datetime.now())
+
+
+class TodoCreate(TodoBase):
+    pass
+
+
+class TodoRead(TodoBase):
+    id: int
+    created_at: datetime
+    updated_at: datetime
