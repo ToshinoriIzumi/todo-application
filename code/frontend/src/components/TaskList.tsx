@@ -1,18 +1,30 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent, FC, MouseEvent } from 'react';
 import type { Task } from '../types/task';
 import { useFetchTasks } from '../hooks/useFetchTasks';
 import { useChangeTaskDone } from '../hooks/useChangeTaskDone';
+import { useDeleteTask } from '../hooks/useDeleteTask';
 import { Link } from 'react-router-dom';
 
 const  TaskList: FC = () => {
   const { tasks, setTasks, error, loading } = useFetchTasks();
   const { changeTaskDone } = useChangeTaskDone();
+  const { deleteTask } = useDeleteTask();
 
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     tasks.map((task: Task) => {
       if (task.id === Number(e.target.value)) {
         task.done = !task.done;
         changeTaskDone({id: task.id, done: task.done});
+      }
+    });
+    setTasks([...tasks]);
+  };
+
+  const handleDeleteTask = (e: MouseEvent, id: number) => {
+    tasks.map((task: Task) => {
+      if (task.id === id) {
+        tasks.splice(tasks.indexOf(task), 1);
+        deleteTask(id);
       }
     });
     setTasks([...tasks]);
@@ -44,6 +56,7 @@ const  TaskList: FC = () => {
                   <span className='' style={{ textDecoration: task.done ? 'line-through' : 'none'}}>
                     <Link to={`/task/${task.id}`}>{task.title}</Link>
                     <Link to={`/task/${task.id}/edit`}>編集</Link>
+                    <div onClick={(e) => handleDeleteTask(e, task.id)}>[x]</div>
                   </span>
               </li>
             ))

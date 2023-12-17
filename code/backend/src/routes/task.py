@@ -34,3 +34,8 @@ async def update_done(task_done: TaskDone, db: Session = Depends(get_db)):
 @router.put("/task/{id}/update", response_model=TaskRead)
 async def update_task(id: int, task: TaskCreate, db: Session = Depends(get_db)):
     return TaskCrud.update(db, id, task)
+
+
+@router.delete("/task/{id}")
+async def delete_task(id: int, db: Session = Depends(get_db)):
+    return TaskCrud.delete(db, id)

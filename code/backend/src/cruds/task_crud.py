@@ -42,3 +42,10 @@ class TaskCrud:
         db.commit()
         db.refresh(db_task)
         return db_task
+
+    @classmethod
+    def delete(cls, db: Session, id: int) -> bool:
+        db_task = cls.search_by_id(db, id)
+        db.delete(db_task)
+        db.commit()
+        return True
