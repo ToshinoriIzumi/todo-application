@@ -29,3 +29,8 @@ async def create_task(task: TaskCreate, db: Session = Depends(get_db)):
 @router.put("/task/done/{id}", response_model=TaskRead)
 async def update_done(task_done: TaskDone, db: Session = Depends(get_db)):
     return TaskCrud.update_done(db, task_done)
+
+
+@router.put("/task/{id}/update", response_model=TaskRead)
+async def update_task(id: int, task: TaskCreate, db: Session = Depends(get_db)):
+    return TaskCrud.update(db, id, task)

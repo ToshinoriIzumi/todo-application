@@ -1,4 +1,4 @@
-
+from datetime import datetime
 from sqlmodel import Session, select
 
 from src.models.task import TaskCreate, TaskRead, Task, TaskDone
@@ -29,6 +29,16 @@ class TaskCrud:
     def update_done(cls, db: Session, task_done: TaskDone) -> TaskRead:
         db_task = cls.search_by_id(db, task_done.id)
         db_task.done = task_done.done
+        db.commit()
+        db.refresh(db_task)
+        return db_task
+
+    @classmethod
+    def update(cls, db: Session, id: int, task: TaskCreate) -> TaskRead:
+        db_task = cls.search_by_id(db, id)
+        db_task.title = task.title
+        db_task.description = task.description
+        db_task.updated_at = datetime.now()
         db.commit()
         db.refresh(db_task)
         return db_task

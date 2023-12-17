@@ -43,6 +43,7 @@ const  TaskList: FC = () => {
                 />
                   <span className='' style={{ textDecoration: task.done ? 'line-through' : 'none'}}>
                     <Link to={`/task/${task.id}`}>{task.title}</Link>
+                    <Link to={`/task/${task.id}/edit`}>編集</Link>
                   </span>
               </li>
             ))

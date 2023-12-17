@@ -12,6 +12,7 @@ export const useFetchTask = () => {
         setLoading(true);
         axios.get<Task>(URL + '/detail/' + id)
         .then((res) => {
+            console.log(res);
             setTask(res.data);
         })
         .catch((err) => {setError(err)})
