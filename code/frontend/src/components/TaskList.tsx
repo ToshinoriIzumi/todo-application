@@ -1,10 +1,23 @@
-import React from 'react'
-import type { Todo } from '../types/todo'
-import { useFetchTodos } from '../hooks/useFetchTodos'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import type { Todo, TodoDoneInput } from '../types/todo';
+import { useFetchTodos } from '../hooks/useFetchTodos';
+import { useChangeTodoDone } from '../hooks/useChangeTodoDone';
+import { Link } from 'react-router-dom';
 
 const  TaskList = () => {
-  const { todos, error, loading } = useFetchTodos();
+  const { todos, setTodos, error, loading } = useFetchTodos();
+  const { changeTodoDone } = useChangeTodoDone();
+
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    todos.map((todo: Todo) => {
+      if (todo.id === Number(e.target.value)) {
+        todo.done = !todo.done;
+        changeTodoDone({id: todo.id, done: todo.done});
+      }
+    });
+    setTodos([...todos]);
+  };
+
   if (loading) {
     return <div>Loading...</div>
   }
@@ -22,7 +35,15 @@ const  TaskList = () => {
           
             todos.map((todo: Todo) => (
               <li key={todo.id}>
-                {todo.title}: {todo.description}
+                <input 
+                  type='checkbox'
+                  checked={todo.done}
+                  value={todo.id}
+                  onChange={handleCheckboxChange}
+                />
+                  <span style={{ textDecoration: todo.done ? 'line-through' : 'none'}}>
+                    {todo.title}
+                  </span>
               </li>
             ))
         )}

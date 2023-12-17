@@ -19,5 +19,5 @@ export const useFetchTodos = () => {
         }
         searchTodos();
     }, []);
-    return { todos, loading, error };
+    return { todos, setTodos, loading, error };
 };
