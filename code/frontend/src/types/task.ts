@@ -1,16 +1,16 @@
-export type Todo = {
+export type Task = {
     id: number;
     title: string;
     description: string;
     done: boolean;
 };
 
-export type TodoInput = {
+export type TaskInput = {
     title: string;
     description: string;
 };
 
-export type TodoDoneInput = {
+export type TaskDoneInput = {
     id: number;
     done: boolean;
 };

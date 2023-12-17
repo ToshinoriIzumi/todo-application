@@ -6,7 +6,7 @@ RUN apt-get update && \
     useradd -m -s /bin/bash -u 1100 -g 1100 app_user
 
 RUN mkdir -p /opt/app && chown -R app_user:app_user /opt/app
-WORKDIR /opt/app/src
+WORKDIR /opt/app
 
 # poetryの定義ファイルをコピー (存在する場合)
 COPY ./code/backend/pyproject.toml* poetry.lock* ./

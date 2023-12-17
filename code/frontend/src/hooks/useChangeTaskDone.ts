@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import type { Todo, TodoDoneInput } from '../types/todo';
+import type { TaskDoneInput } from '../types/task';
 import  axios  from 'axios';
 import { URL } from '../utils/const';
 
-export const useChangeTodoDone = () => {
+export const useChangeTaskDone = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
-    const changeTodoDone = async (todo: TodoDoneInput) => {
+    const changeTaskDone = async (task: TaskDoneInput) => {
         setLoading(true);
-        axios.put<TodoDoneInput>(URL + '/post/done/' + todo.id, todo)
+        axios.put<TaskDoneInput>(URL + '/task/done/' + task.id, task)
         .then((res) => {
             console.log(res);
         })
@@ -16,5 +16,5 @@ export const useChangeTodoDone = () => {
         .finally(() => {setLoading(false)});
     };
 
-    return { loading, error, changeTodoDone };
+    return { loading, error, changeTaskDone };
 };

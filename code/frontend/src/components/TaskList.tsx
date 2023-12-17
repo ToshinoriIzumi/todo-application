@@ -1,21 +1,21 @@
-import React from 'react';
-import type { Todo, TodoDoneInput } from '../types/todo';
-import { useFetchTodos } from '../hooks/useFetchTodos';
-import { useChangeTodoDone } from '../hooks/useChangeTodoDone';
+import { ChangeEvent, FC } from 'react';
+import type { Task } from '../types/task';
+import { useFetchTasks } from '../hooks/useFetchTasks';
+import { useChangeTaskDone } from '../hooks/useChangeTaskDone';
 import { Link } from 'react-router-dom';
 
-const  TaskList = () => {
-  const { todos, setTodos, error, loading } = useFetchTodos();
-  const { changeTodoDone } = useChangeTodoDone();
+const  TaskList: FC = () => {
+  const { tasks, setTasks, error, loading } = useFetchTasks();
+  const { changeTaskDone } = useChangeTaskDone();
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    todos.map((todo: Todo) => {
-      if (todo.id === Number(e.target.value)) {
-        todo.done = !todo.done;
-        changeTodoDone({id: todo.id, done: todo.done});
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    tasks.map((task: Task) => {
+      if (task.id === Number(e.target.value)) {
+        task.done = !task.done;
+        changeTaskDone({id: task.id, done: task.done});
       }
     });
-    setTodos([...todos]);
+    setTasks([...tasks]);
   };
 
   if (loading) {
@@ -26,23 +26,23 @@ const  TaskList = () => {
   }
   return (
     <div>
-      <h2 className="text-3xl font-bold underline">TaskList</h2>
+      <h2 className="text-3xl font-bold">TaskList</h2>
       <Link to="/taskadd">タスクの追加</Link>
       <ul>
         { loading ? (
           <div>Loading...</div>
         ) : (
           
-            todos.map((todo: Todo) => (
-              <li key={todo.id}>
+            tasks.map((task: Task) => (
+              <li key={task.id}>
                 <input 
                   type='checkbox'
-                  checked={todo.done}
-                  value={todo.id}
+                  checked={task.done}
+                  value={task.id}
                   onChange={handleCheckboxChange}
                 />
-                  <span style={{ textDecoration: todo.done ? 'line-through' : 'none'}}>
-                    {todo.title}
+                  <span className='' style={{ textDecoration: task.done ? 'line-through' : 'none'}}>
+                    <Link to={`/task/${task.id}`}>{task.title}</Link>
                   </span>
               </li>
             ))

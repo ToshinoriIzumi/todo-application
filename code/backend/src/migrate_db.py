@@ -1,8 +1,8 @@
 from sqlmodel import create_engine, SQLModel
 
-from models.todo import Todo
+from src.models.task import Task
 
-DB_URL = "postgresql+psycopg2://postgres:postgres@db:5432/todo_app"
+DB_URL = "postgresql+psycopg2://postgres:postgres@db:5432/task_app"
 engine = create_engine(DB_URL, echo=True)
 
 

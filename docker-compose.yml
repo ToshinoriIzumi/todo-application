@@ -11,7 +11,7 @@ services:
     ports:
       - "3000:3000"
     networks:
-      - todo-app-network
+      - task-app-network
   backend:
     build: 
       context: .
@@ -22,7 +22,7 @@ services:
     ports:
       - "8000:8000"
     networks:
-      - todo-app-network
+      - task-app-network
   db:
     image: postgres:9.6
     ports:
@@ -32,11 +32,11 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: todo_app
+      POSTGRES_DB: task_app
     networks:
-      - todo-app-network
+      - task-app-network
 networks:
-  todo-app-network:
+  task-app-network:
     driver: bridge
 volumes:
   node_modules:
